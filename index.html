@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Shopping</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background-color: #f0f2f5;
+            padding: 2rem;
+        }
+
+        .navbar {
+            background-color: #f8f9fa;
+            padding: 1rem 2rem;
+            margin: -2rem -2rem 2rem -2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .brand {
+            color: #1a73e8;
+            font-size: 1.5rem;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .user-section {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .welcome-text {
+            color: #1a73e8;
+            font-weight: 500;
+        }
+
+        .cart-button {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+            color: #1a73e8;
+            font-weight: 500;
+        }
+
+        .cart-count {
+            background-color: #1a73e8;
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 1rem;
+            font-size: 0.875rem;
+        }
+
+        .auth-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .auth-button {
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .login-button {
+            background-color: #1a73e8;
+            color: white;
+        }
+
+        .register-button {
+            border: 1px solid #1a73e8;
+            color: #1a73e8;
+        }
+
+        .logout-button {
+            background-color: #dc3545;
+            color: white;
+            cursor: pointer;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+
+        .search-container {
+            max-width: 1200px;
+            margin: 0 auto 2rem auto;
+            display: flex;
+            gap: 1rem;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 0.75rem;
+            border: 1px solid #dadce0;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+
+        .search-select {
+            padding: 0.75rem;
+            border: 1px solid #dadce0;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .product-card {
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s;
+        }
+
+        .product-card:hover {
+            transform: translateY(-4px);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+        }
+
+        .product-info {
+            padding: 1rem;
+        }
+
+        .product-category {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            background-color: #e8f0fe;
+            color: #1a73e8;
+            border-radius: 16px;
+            font-size: 0.875rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .product-name {
+            font-size: 1.25rem;
+            color: #202124;
+            margin-bottom: 0.5rem;
+        }
+
+        .product-price {
+            font-size: 1.5rem;
+            color: #1a73e8;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .add-to-cart {
+            width: 100%;
+            padding: 0.75rem;
+            background-color: #1a73e8;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .add-to-cart:hover {
+            background-color: #1557b0;
+        }
+
+        .heart-button {
+            border: none;
+            background: none;
+            cursor: pointer;
+            color: #dc3545;
+            font-size: 1.5rem;
+            padding: 0.5rem;
+        }
+
+        .product-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .favorite-button {
+            padding: 0.75rem;
+            background-color: white;
+            color: #dc3545;
+            border: 1px solid #dc3545;
+            border-radius: 4px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            flex: 1;
+        }
+
+        .favorite-button.active {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        .add-to-cart {
+            flex: 2;
+        }
+                
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <a href="#" class="brand">Online Shopping</a>
+        <div class="user-section">
+            <div id="userDisplay">
+                <!-- User info will be inserted here by JavaScript -->
+            </div>
+            <a href="shopping-cart.html" class="cart-button">
+                Cart <span class="cart-count" id="cartCount">0</span>
+            </a>
+        </div>
+    </nav>
+    
+    <div class="search-container">
+        <select class="search-select">
+            <option value="">Search by Name</option>
+            <option value="fashion">Fashion</option>
+            <option value="electronics">Electronics</option>
+            <option value="accessories">Accessories</option>
+        </select>
+        <input type="text" class="search-input" placeholder="Search">
+    </div>
+
+    <div class="products-grid">
+        <!-- Product Card 1 -->
+        <div class="product-card" data-id="1">
+            <img src="imges\1_276.jpg" alt="Product 1" class="product-image">
+            <div class="product-info">
+                <span class="product-category">Electronics</span>
+                <h3 class="product-name">Wireless Headphones</h3>
+                <p class="product-price">$129.99</p>
+                <p class="product-description">High-quality wireless headphones with noise cancellation.</p>
+                <div class="product-actions">
+                    <button class="favorite-button" onclick="toggleFavorite(this, '1')">♡</button>
+                    <button class="add-to-cart" onclick="addToCart('1', 'Wireless Headphones', 129.99, 'imges/1_276.jpg')">Add to Cart</button>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Product Card 2 -->
+        <div class="product-card" data-id="2">
+            <img src="imges\150-410-11-041-00_shadow.png" alt="Product 2" class="product-image">
+            <div class="product-info">
+                <span class="product-category">Fashion</span>
+                <h3 class="product-name">Classic Watch</h3>
+                <p class="product-price">$199.99</p>
+                <p class="product-description">Elegant analog watch with leather strap.</p>
+                <div class="product-actions">
+                    <button class="favorite-button" onclick="toggleFavorite(this, '2')">♡</button>
+                    <button class="add-to-cart" onclick="addToCart('2', 'Classic Watch', 199.99, 'imges/150-410-11-041-00_shadow.png')">Add to Cart</button>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Product Card 3 -->
+        <div class="product-card" data-id="3">
+            <img src="imges\BmMh6pGhantSskn9fKQMme-320-80.jpg" alt="Product 3" class="product-image">
+            <div class="product-info">
+                <span class="product-category">Home</span>
+                <h3 class="product-name">Smart Speaker</h3>
+                <p class="product-price">$79.99</p>
+                <p class="product-description">Voice-controlled smart speaker with premium sound.</p>
+                <div class="product-actions">
+                    <button class="favorite-button" onclick="toggleFavorite(this, '3')">♡</button>
+                    <button class="add-to-cart" onclick="addToCart('3', 'Smart Speaker', 79.99, 'imges/BmMh6pGhantSskn9fKQMme-320-80.jpg')">Add to Cart</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Product Card 4 -->
+        <div class="product-card" data-id="4">
+            <img src="imges\images.jpg" alt="Product 4" class="product-image">
+            <div class="product-info">
+                <span class="product-category">Sports</span>
+                <h3 class="product-name">Running Shoes</h3>
+                <p class="product-price">$89.99</p>
+                <p class="product-description">Lightweight running shoes with cushioned support.</p>
+                <div class="product-actions">
+                    <button class="favorite-button" onclick="toggleFavorite(this, '4')">♡</button>
+                    <button class="add-to-cart" onclick="addToCart('4', 'Running Shoes', 89.99, 'imges/images.jpg')">Add to Cart</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Product Card 5 -->
+        <div class="product-card" data-id="5">
+            <img src="imges\9780593498439.jpg" alt="Product 5" class="product-image">
+            <div class="product-info">
+                <span class="product-category">Books</span>
+                <h3 class="product-name">Best Seller Novel</h3>
+                <p class="product-price">$24.99</p>
+                <p class="product-description">Award-winning fiction novel, hardcover edition.</p>
+                <div class="product-actions">
+                    <button class="favorite-button" onclick="toggleFavorite(this, '5')">♡</button>
+                    <button class="add-to-cart" onclick="addToCart('5', 'Best Seller Novel', 24.99, 'imges/9780593498439.jpg')">Add to Cart</button>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Product Card 6 -->
+        <div class="product-card" data-id="6">
+            <img src="imges\Logitech G502 Hero Wired Gaming Mouse.jpg" alt="Product 6" class="product-image">
+            <div class="product-info">
+                <span class="product-category">Gaming</span>
+                <h3 class="product-name">Gaming Mouse</h3>
+                <p class="product-price">$59.99</p>
+                <p class="product-description">High-precision gaming mouse with RGB lighting.</p>
+                <div class="product-actions">
+                    <button class="favorite-button" onclick="toggleFavorite(this, '6')">♡</button>
+                    <button class="add-to-cart" onclick="addToCart('6', 'Gaming Mouse', 59.99, 'imges/Logitech G502 Hero Wired Gaming Mouse.jpg')">Add to Cart</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Product Card 7 -->
+        <div class="product-card" data-id="7">
+            <img src="imges\mienta_coffee_maker_300_watt_black_-_cm31416a_1_.jpg" alt="Product 7" class="product-image">
+            <div class="product-info">
+                <span class="product-category">Kitchen</span>
+                <h3 class="product-name">Coffee Maker</h3>
+                <p class="product-price">$149.99</p>
+                <p class="product-description">Programmable coffee maker with thermal carafe.</p>
+                <div class="product-actions">
+                    <button class="favorite-button" onclick="toggleFavorite(this, '7')">♡</button>
+                    <button class="add-to-cart" onclick="addToCart('7', 'Coffee Maker', 149.999, 'imges/mienta_coffee_maker_300_watt_black_-_cm31416a_1_.jpg')">Add to Cart</button>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Product Card 8 -->
+        <div class="product-card" data-id="8">
+            <img src="imges\714nxPlNEKL.jpg" alt="Product 8" class="product-image">
+            <div class="product-info">
+                <span class="product-category">Beauty</span>
+                <h3 class="product-name">Skincare Set</h3>
+                <p class="product-price">$99.99</p>
+                <p class="product-description">Complete skincare routine with natural ingredients.</p>
+                <div class="product-actions">
+                    <button class="favorite-button" onclick="toggleFavorite(this, '8')">♡</button>
+                    <button class="add-to-cart" onclick="addToCart('8', 'Skincare Set', 99.99, 'imges/714nxPlNEKL.jpg')">Add to Cart</button>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Product Card 9 -->
+        <div class="product-card" data-id="9">
+            <img src="imges\71s4mjiit3L.jpg" alt="Product 9" class="product-image">
+            <div class="product-info">
+                <span class="product-category">Tech</span>
+                <h3 class="product-name">Smart Watch</h3>
+                <p class="product-price">$299.99</p>
+                <p class="product-description">Advanced smartwatch with health monitoring.</p>
+                <div class="product-actions">
+                    <button class="favorite-button" onclick="toggleFavorite(this, '9')">♡</button>
+                    <button class="add-to-cart" onclick="addToCart('9', 'Smart Watch', 299.99, 'imges/71s4mjiit3L.jpg')">Add to Cart</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</body>
+
+<script>
+    // Check if user is logged in
+    function checkAuth() {
+        const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+        const userDisplay = document.getElementById('userDisplay');
+        
+        if (currentUser) {
+            userDisplay.innerHTML = `
+                <span class="welcome-text">WELCOME ${currentUser.firstName.toUpperCase()}</span>
+                <button class="logout-button" onclick="logout()">Logout</button>
+            `;
+        } else {
+            userDisplay.innerHTML = `
+                <div class="auth-buttons">
+                    <a href="login-page.html" class="auth-button login-button">Login</a>
+                    <a href="registration-page.html" class="auth-button register-button">Register</a>
+                </div>
+            `;
+            // Redirect to login if trying to access protected page
+            window.location.href = 'login-page.html';
+        }
+    }
+
+    // Initialize storage
+    if (!localStorage.getItem('cartItems')) {
+        localStorage.setItem('cartItems', JSON.stringify([]));
+    }
+    if (!localStorage.getItem('favorites')) {
+        localStorage.setItem('favorites', JSON.stringify([]));
+    }
+
+    // Add to cart function
+    function addToCart(productId, name, price, image) {
+        let cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+        const existingItem = cartItems.find(item => item.id === productId);
+        
+        if (existingItem) {
+            existingItem.quantity += 1;
+        } else {
+            cartItems.push({
+                id: productId,
+                name: name,
+                price: price,
+                image: image,
+                quantity: 1
+            });
+        }
+        
+        localStorage.setItem('cartItems', JSON.stringify(cartItems));
+        updateCartCount();
+    }
+
+    /////
+    // Get all the products
+    const productCards = document.querySelectorAll('.product-card');
+
+    // Get search elements
+    const searchInput = document.querySelector('.search-input');
+    const categorySelect = document.querySelector('.search-select');
+
+    // Function to filter products
+    function filterProducts() {
+        const searchTerm = searchInput.value.toLowerCase();
+        const selectedCategory = categorySelect.value.toLowerCase();
+        
+        productCards.forEach(card => {
+            // Get product details from the card
+            const productName = card.querySelector('.product-name').textContent.toLowerCase();
+            const productCategory = card.querySelector('.product-category').textContent.toLowerCase();
+            const productDescription = card.querySelector('.product-description').textContent.toLowerCase();
+            
+            // Check if product matches both search term and category
+            const matchesSearch = productName.includes(searchTerm) || 
+                                productDescription.includes(searchTerm);
+            const matchesCategory = selectedCategory === '' || productCategory === selectedCategory;
+            
+            // Show/hide the card based on matches
+            if (matchesSearch && matchesCategory) {
+                card.style.display = 'block';
+            } else {
+                card.style.display = 'none';
+            }
+        });
+    }
+
+    // Add event listeners for both search input and category select
+    searchInput.addEventListener('input', filterProducts);
+    categorySelect.addEventListener('change', filterProducts);
+
+    // Initialize search options in category select
+    function initializeCategories() {
+        // Get all unique categories
+        const categories = new Set();
+        productCards.forEach(card => {
+            const category = card.querySelector('.product-category').textContent;
+            categories.add(category);
+        });
+        
+        // Clear existing options except the first one
+        while (categorySelect.options.length > 1) {
+            categorySelect.remove(1);
+        }
+        
+        // Add category options
+        categories.forEach(category => {
+            const option = new Option(category, category.toLowerCase());
+            categorySelect.add(option);
+        });
+    }
+
+    // Initialize categories when page loads
+    document.addEventListener('DOMContentLoaded', initializeCategories);
+    /////
+
+    // Toggle favorite function
+    function toggleFavorite(button, productId) {
+        let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+        
+        if (favorites.includes(productId)) {
+            favorites = favorites.filter(id => id !== productId);
+            button.textContent = '♡';
+            button.classList.remove('active');
+        } else {
+            favorites.push(productId);
+            button.textContent = '♥';
+            button.classList.add('active');
+        }
+        
+        localStorage.setItem('favorites', JSON.stringify(favorites));
+    }
+
+    // Update cart count display
+    function updateCartCount() {
+        const cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+        const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
+        document.getElementById('cartCount').textContent = totalItems;
+    }
+
+    // Logout function
+    function logout() {
+        localStorage.removeItem('currentUser');
+        window.location.href = 'login-page.html';
+    }
+
+    // Initialize page
+    checkAuth();
+    updateCartCount();
+
+    // Load favorites state
+    document.addEventListener('DOMContentLoaded', function() {
+        const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+        const favoriteButtons = document.querySelectorAll('.favorite-button');
+        
+        favoriteButtons.forEach(button => {
+            const productId = button.getAttribute('onclick').match(/'([^']+)'/)[1];
+            if (favorites.includes(productId)) {
+                button.textContent = '♥';
+                button.classList.add('active');
+            }
+        });
+    });
+</script>
+
+</html>
