@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #f0f2f5;
+        }
+
+        .login-container {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+            margin: 1rem;
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .login-header h1 {
+            color: #1a73e8;
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .login-header p {
+            color: #5f6368;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #202124;
+            font-weight: 500;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #dadce0;
+            border-radius: 4px;
+            font-size: 1rem;
+            transition: border-color 0.2s;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #1a73e8;
+            box-shadow: 0 0 0 2px rgba(26, 115, 232, 0.2);
+        }
+
+        .remember-me {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .remember-me input {
+            margin-right: 0.5rem;
+        }
+
+        .remember-me label {
+            color: #5f6368;
+        }
+
+        .login-button {
+            width: 100%;
+            padding: 0.75rem;
+            background-color: #1a73e8;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .login-button:hover {
+            background-color: #1557b0;
+        }
+
+        .forgot-password {
+            display: block;
+            text-align: center;
+            margin-top: 1rem;
+            color: #1a73e8;
+            text-decoration: none;
+        }
+
+        .error-message {
+            color: #dc3545;
+            font-size: 0.875rem;
+            margin-top: 0.5rem;
+            display: none;
+        }
+
+        .forgot-password:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 480px) {
+            .login-container {
+                margin: 1rem;
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-header">
+            <h1>Welcome Back</h1>
+            <p>Please enter your credentials to login</p>
+        </div>
+        <form id="loginForm">
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required placeholder="Enter your email">
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required placeholder="Enter your password">
+                <div id="loginError" class="error-message">Invalid email or password.</div>
+            </div>
+            <div class="remember-me">
+                <input type="checkbox" id="remember" name="remember">
+                <label for="remember">Remember me</label>
+            </div>
+            <button type="submit" class="login-button">Log In</button>
+            <a href="#" class="forgot-password">Forgot Password?</a>
+            <a href="registration-page.html" class="forgot-password">you not have an account? register</a>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form values
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            // Reset error message
+            document.getElementById('loginError').style.display = 'none';
+
+            // Get users from localStorage
+            const users = JSON.parse(localStorage.getItem('users') || '[]');
+
+            // Find user with matching credentials
+            const user = users.find(u => u.email === email && u.password === password);
+
+            if (user) {
+                // Store logged in user info (optional)
+                localStorage.setItem('currentUser', JSON.stringify(user));
+                
+                // Redirect to products page
+                window.location.href = 'products-page.html';
+            } else {
+                // Show error message
+                document.getElementById('loginError').style.display = 'block';
+            }
+        });
+    </script>
+</body>
+</html>
